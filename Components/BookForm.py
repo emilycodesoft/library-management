@@ -39,6 +39,7 @@ class BookForm(UserControl):
         return TextField(label=label, multiline=multiline)
 
     def build(self):
+        Button = AppButton(self.page)
         self.book_form_instance()
         return Column(
             width=400,
@@ -56,6 +57,6 @@ class BookForm(UserControl):
                         self.input_form_field("ISBN (opcional)"),
                     ]
                 ),
-                AppButton(),
+                Button,
             ],
         )

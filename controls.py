@@ -3,6 +3,10 @@
 global control_reference
 control_reference = {}
 
+global pageControl
+pageControl = None
+
+
 def add_control_reference(key, value):
     # this function will be called before making an instance of a class. It takes two arguments, a key and a value, which will be paired in the global dict. as a key:value pair.
     global control_reference
@@ -12,6 +16,7 @@ def add_control_reference(key, value):
         print(e)
     finally:
         pass
+
 
 # we can create another function that returns the dict
 def return_control_reference():

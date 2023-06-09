@@ -15,14 +15,14 @@ control_map = return_control_reference()
 
 
 # main class
-class AddBookView(UserControl):
+class EditBookView(UserControl):
     def __init__(self, page=None):
         self.page = page
         super().__init__()
 
-    def add_book_view_instance(self):
+    def edit_bookview_instance(self):
         # this function sets the class instance as a key:value pair in the global dict.
-        add_control_reference("AddBookView", self)
+        add_control_reference("EditBookView", self)
 
     def textbox_changed(e):
         pass
@@ -30,7 +30,7 @@ class AddBookView(UserControl):
         # page.update()
 
     def build(self):
-        self.add_book_view_instance()
+        self.edit_bookview_instance()
         BookF = BookForm(self.page)
         return Column(
             controls=[

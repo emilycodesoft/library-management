@@ -33,6 +33,7 @@ class HomeView(UserControl):
 
     def build(self):
         self.home_view_instance()
+        BookTable = BooksTable(self.page)
         return Column(
             controls=[
                 # class instances go here...
@@ -47,7 +48,7 @@ class HomeView(UserControl):
                     on_click=lambda _: self.page.go("/books/add-book"),
                 ),
                 Container(
-                    content=Column(controls=[BooksTable([])]),
+                    content=Column(controls=[BookTable]),
                     margin=margin.symmetric(horizontal=20, vertical=15),
                 ),
             ]

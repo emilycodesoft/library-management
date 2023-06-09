@@ -3,15 +3,23 @@ import flet as ft
 
 from Views.Home import HomeView
 from Views.AddBook import AddBookView
+from controls import (
+    add_control_reference,
+)  # this are the functions we created in the control.py script
 
 
 def salir(page):
     page.window_close()
 
 
+# page global en cada componente
+# llamado desde el
+
+
 def main(page: ft.Page):
     page.title = "Gestion de Bibliotecas"
-    libros = []
+    page.theme_mode = "dark"
+    add_control_reference("page", page)
 
     page.appbar = ft.AppBar(
         leading=ft.Icon(ft.icons.BOOK),
@@ -29,20 +37,22 @@ def main(page: ft.Page):
             ),
         ],
     )
+    Home = HomeView(page)
+    AddBook = AddBookView(page)
 
     def route_change(route):
         page.views.clear()
         page.views.append(
             ft.View(
                 "/",
-                [HomeView(lambda _: page.title)],
+                [Home],
             )
         )
         if page.route == "/books/add-book":
             page.views.append(
                 ft.View(
                     "/books/add-book",
-                    [AddBookView(page)],
+                    [AddBook],
                 )
             )
         page.update()

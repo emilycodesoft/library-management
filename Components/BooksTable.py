@@ -9,6 +9,8 @@ from controls import (
 
 # we can set the returned dict as a variable at the top of the class
 # we'll use it later in the app
+from firestore import db
+
 control_map = return_control_reference()
 
 
@@ -29,62 +31,68 @@ class BooksTable(UserControl):
 
     def build(self):
         self.books_table_instance()
+        books_ref = db.collection("books")
+        books = books_ref.stream()
+
         # print(self.info)
+        Table = DataTable(
+            expand=True,
+            columns=[
+                DataColumn(Text("ID")),
+                DataColumn(Text("Titulo")),
+                DataColumn(Text("Autor")),
+                DataColumn(Text("# de Copias"), numeric=True),
+                DataColumn(Text("Estado")),
+                DataColumn(Text("Acciones")),
+            ],
+            # here we will configure the form button to append the data rows
+            rows=[],
+        )
+        for book in books:
+            bookD = book.to_dict()
+            Table.rows.append(
+                DataRow(
+                    cells=[
+                        DataCell(Text(len(Table.rows))),
+                        DataCell(Text(bookD["titulo"])),
+                        DataCell(Text(bookD["autor"])),
+                        DataCell(Text(bookD["ctdCopias"])),
+                        DataCell(Text(bookD["ctdCopias"])),
+                        DataCell(
+                            Row(
+                                controls=[
+                                    IconButton(
+                                        icon=icons.ADD_CARD,
+                                        icon_color="blue400",
+                                        icon_size=20,
+                                        tooltip="Pause record",
+                                    ),
+                                    IconButton(
+                                        icon=icons.ACCESS_ALARM,
+                                        icon_color="blue400",
+                                        icon_size=20,
+                                        tooltip="Pause record",
+                                    ),
+                                    IconButton(
+                                        icon=icons.EDIT,
+                                        icon_color="blue400",
+                                        icon_size=20,
+                                        tooltip="Pause record",
+                                    ),
+                                    IconButton(
+                                        icon=icons.DELETE,
+                                        icon_color="blue400",
+                                        icon_size=20,
+                                        tooltip="Pause record",
+                                    ),
+                                ]
+                            )
+                        ),
+                    ]
+                )
+            )
+
         return Row(
             expand=True,
-            controls=[
-                DataTable(
-                    expand=True,
-                    columns=[
-                        DataColumn(Text("ID")),
-                        DataColumn(Text("Titulo")),
-                        DataColumn(Text("Autor")),
-                        DataColumn(Text("# de Copias"), numeric=True),
-                        DataColumn(Text("Estado")),
-                        DataColumn(Text("Acciones")),
-                    ],
-                    # here we will configure the form button to append the data rows
-                    rows=[
-                        DataRow(
-                            cells=[
-                                DataCell(Text("1")),
-                                DataCell(Text("Cien Años de Soledad")),
-                                DataCell(Text("Gabriel Garcia Marquez")),
-                                DataCell(Text("20")),
-                                DataCell(Text("Prestado")),
-                                DataCell(
-                                    Row(
-                                        controls=[
-                                            IconButton(
-                                                icon=icons.ADD_CARD,
-                                                icon_color="blue400",
-                                                icon_size=20,
-                                                tooltip="Pause record",
-                                            ),
-                                            IconButton(
-                                                icon=icons.ACCESS_ALARM,
-                                                icon_color="blue400",
-                                                icon_size=20,
-                                                tooltip="Pause record",
-                                            ),
-                                            IconButton(
-                                                icon=icons.EDIT,
-                                                icon_color="blue400",
-                                                icon_size=20,
-                                                tooltip="Pause record",
-                                            ),
-                                            IconButton(
-                                                icon=icons.DELETE,
-                                                icon_color="blue400",
-                                                icon_size=20,
-                                                tooltip="Pause record",
-                                            ),
-                                        ]
-                                    )
-                                ),
-                            ],
-                        ),
-                    ],
-                )
-            ],
+            controls=[Table],
         )
