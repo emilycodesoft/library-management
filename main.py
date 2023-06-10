@@ -1,27 +1,30 @@
-# necessary modules
+# modulos necesarios
 import flet as ft
 
 from Views.Home import HomeView
 from Views.AddBook import AddBookView
+from Views.EditBook import EditBookView
+
 from controls import (
     add_control_reference,
-)  # this are the functions we created in the control.py script
+)
 
 
 def salir(page):
     page.window_close()
 
 
-# page global en cada componente
-# llamado desde el
-
-
 def main(page: ft.Page):
     page.title = "Gestion de Bibliotecas"
+
+    # Establece la aplicación en modo oscuro
     page.theme_mode = "dark"
+
+    # agrega la pagina a un controlador general
     add_control_reference("page", page)
 
-    page.appbar = ft.AppBar(
+    # El navbar de la Aplicación
+    bar = ft.AppBar(
         leading=ft.Icon(ft.icons.BOOK),
         leading_width=40,
         title=ft.Text("GestiBiblioteca"),
@@ -37,24 +40,44 @@ def main(page: ft.Page):
             ),
         ],
     )
+
+    # Vistas
     Home = HomeView(page)
     AddBook = AddBookView(page)
+    EditBook = EditBookView(page)
 
+    # funcion que se ejecuta cada vez que la ruta cambia
     def route_change(route):
         page.views.clear()
+
+        # Vista principal
         page.views.append(
             ft.View(
                 "/",
-                [Home],
+                [bar, Home],
+                scroll=ft.ScrollMode.AUTO,
             )
         )
+
+        # Vista de añadir
         if page.route == "/books/add-book":
             page.views.append(
                 ft.View(
                     "/books/add-book",
-                    [AddBook],
+                    [bar, AddBook],
+                    scroll=ft.ScrollMode.AUTO,
                 )
             )
+        # Vista de editar
+        if page.route == "/books/edit-book":
+            page.views.append(
+                ft.View(
+                    "/books/edit-book",
+                    [bar, EditBook],
+                    scroll=ft.ScrollMode.ALWAYS,
+                )
+            )
+        # actualiza la pagina con la nueva vista
         page.update()
 
     def view_pop(view):
@@ -62,6 +85,7 @@ def main(page: ft.Page):
         top_view = page.views[-1]
         page.go(top_view.route)
 
+    # cuando cambie la ruta se ejecuta estan funciones
     page.on_route_change = route_change
     page.on_view_pop = view_pop
     page.go(page.route)

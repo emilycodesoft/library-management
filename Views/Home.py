@@ -1,42 +1,39 @@
-# this is the navbar of the destop application
-
-# modules
 from flet import *
 from controls import (
     add_control_reference,
     return_control_reference,
-)  # this are the functions we created in the control.py script
+)
 
-from Components.Navbar import AppNavbar  # Navbar application
-from Components.SearchInput import SearchInput  # Navbar application
-from Components.BooksTable import BooksTable  # Navbar application
+# componentes requeridos para esta vista: Home
+from Components.Navbar import AppNavbar
+from Components.SearchInput import SearchInput
+from Components.BooksTable import BooksTable
+from Store.BooksStore import BookStore
 
-# we can set the returned dict as a variable at the top of the class
-# we'll use it later in the app
 control_map = return_control_reference()
 
 
-# main class
+# clase principal
 class HomeView(UserControl):
     def __init__(self, page):
-        self.page = page
         super().__init__()
+        self.page = page
 
+    # añadimos vista al controlador
     def home_view_instance(self):
-        # this function sets the class instance as a key:value pair in the global dict.
         add_control_reference("HomeView", self)
 
-    def textbox_changed(e):
-        pass
-        # t.value = e.control.value
-        # page.update()
+    def add_book(self, e):
+        BookStore["state"]["book_state"] = "ADD"
+        self.page.go("/books/add-book")
 
     def build(self):
         self.home_view_instance()
+
         BookTable = BooksTable(self.page)
+
         return Column(
             controls=[
-                # class instances go here...
                 AppNavbar(),
                 Container(
                     content=SearchInput(),
@@ -45,7 +42,7 @@ class HomeView(UserControl):
                 ElevatedButton(
                     "Agregar Libro",
                     icon=icons.ADD,
-                    on_click=lambda _: self.page.go("/books/add-book"),
+                    on_click=self.add_book,
                 ),
                 Container(
                     content=Column(controls=[BookTable]),
