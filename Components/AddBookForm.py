@@ -7,6 +7,8 @@ from controls import (
 # componentes requeridos para este componente: AddBookForm
 from Components.AddButton import AddButton
 
+# from Components.AddButtonState import AddButtonState
+
 control_map = return_control_reference()
 
 
@@ -45,7 +47,7 @@ class AddBookForm(UserControl):
                     controls=[
                         self.input_form_field("Titulo"),
                         self.input_form_field("Autor"),
-                        self.input_form_field("Descripción", multiline=True),
+                        self.input_form_field("Descripción (opcional)", multiline=True),
                         self.input_form_field("Cantidad de Copias"),
                         self.input_form_field("Fecha de publicacion"),
                         self.input_form_field("Editorial"),

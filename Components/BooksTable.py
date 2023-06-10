@@ -43,7 +43,7 @@ class BooksTable(UserControl):
                     Row(
                         controls=[
                             IconButton(
-                                icon=icons.ACCESS_ALARM,
+                                icon=icons.LIBRARY_BOOKS,
                                 icon_color="blue400",
                                 icon_size=20,
                                 tooltip="Ver Libro",

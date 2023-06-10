@@ -23,13 +23,13 @@ def get_input_data(e):
             libro.ISBN = value.controls[0].controls[1].controls[6].value
 
     # validar que se inserten los datos requeridos
-    if not (
-        len(libro.titulo)
-        or len(libro.autor)
-        or len(libro.ctdCopias)
-        or len(libro.fechaPublicacion)
-        or len(libro.editorial)
-        or len(libro.ISBN)
+    if (
+        not (libro.titulo)
+        or not (libro.autor)
+        or not (libro.ctdCopias)
+        or not (libro.fechaPublicacion)
+        or not (libro.editorial)
+        or not (libro.ISBN)
     ):
         control_map["page"].snack_bar = SnackBar(
             content=Text("Ingrese todos los valores requeridos"),
