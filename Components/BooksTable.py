@@ -5,7 +5,7 @@ from controls import (
 )
 
 # llamado a la instancia de la base de datos
-from firestore import db
+from firestore import db, firestore
 
 # llamado al store de libros (un diccionario principal para manejar información de los libros entre componentes de manera centralizada)
 from Store.BooksStore import BookStore
@@ -22,6 +22,10 @@ class BooksTable(UserControl):
 
     def books_table_instance(self):
         add_control_reference("BooksTable", self)
+
+    def view_book(self, id):
+        BookStore["state"]["bookSelected"] = id
+        self.page.go("/books/view-book")
 
     def edit_book(self, id):
         BookStore["state"]["bookSelected"] = id
@@ -43,6 +47,7 @@ class BooksTable(UserControl):
                                 icon_color="blue400",
                                 icon_size=20,
                                 tooltip="Ver Libro",
+                                on_click=lambda _: self.view_book(id),
                             ),
                             IconButton(
                                 icon=icons.EDIT,
@@ -61,7 +66,9 @@ class BooksTable(UserControl):
         self.books_table_instance()
 
         # llamado a la collccion de libros en la base de datos
-        books_ref = db.collection("books")
+        books_ref = db.collection("books").order_by(
+            "timestamp", direction=firestore.Query.DESCENDING
+        )
         books = books_ref.stream()
 
         # instancia de la cabecera de la tabla

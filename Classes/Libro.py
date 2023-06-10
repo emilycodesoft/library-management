@@ -1,6 +1,6 @@
 # Editorial y Autor Clases
 from collections.abc import Iterable
-from firestore import db
+from firestore import db, firestore
 
 
 class Libro:
@@ -33,6 +33,7 @@ class Libro:
             "fechaPublicacion": self.fechaPublicacion,
             "editorial": self.editorial,
             "ISBN": self.ISBN,
+            "timestamp": firestore.SERVER_TIMESTAMP,
         }
         db.collection("books").add(book)
 

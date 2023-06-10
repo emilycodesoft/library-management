@@ -21,7 +21,24 @@ def get_input_data(e):
             libro.fechaPublicacion = value.controls[0].controls[1].controls[4].value
             libro.editorial = value.controls[0].controls[1].controls[5].value
             libro.ISBN = value.controls[0].controls[1].controls[6].value
+
     # validar que se inserten los datos requeridos
+    if not (
+        len(libro.titulo)
+        or len(libro.autor)
+        or len(libro.ctdCopias)
+        or len(libro.fechaPublicacion)
+        or len(libro.editorial)
+        or len(libro.ISBN)
+    ):
+        control_map["page"].snack_bar = SnackBar(
+            content=Text("Ingrese todos los valores requeridos"),
+            action="Aceptar",
+        )
+        control_map["page"].snack_bar.open = True
+        control_map["page"].update()
+        return
+
     libro.agregar()
     control_map["page"].go("/")
 

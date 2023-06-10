@@ -4,6 +4,7 @@ import flet as ft
 from Views.Home import HomeView
 from Views.AddBook import AddBookView
 from Views.EditBook import EditBookView
+from Views.ViewBook import ViewBookView
 
 from controls import (
     add_control_reference,
@@ -45,6 +46,7 @@ def main(page: ft.Page):
     Home = HomeView(page)
     AddBook = AddBookView(page)
     EditBook = EditBookView(page)
+    ViewBook = ViewBookView(page)
 
     # funcion que se ejecuta cada vez que la ruta cambia
     def route_change(route):
@@ -74,6 +76,15 @@ def main(page: ft.Page):
                 ft.View(
                     "/books/edit-book",
                     [bar, EditBook],
+                    scroll=ft.ScrollMode.ALWAYS,
+                )
+            )
+        # Vista de ver
+        if page.route == "/books/view-book":
+            page.views.append(
+                ft.View(
+                    "/books/view-book",
+                    [bar, ViewBook],
                     scroll=ft.ScrollMode.ALWAYS,
                 )
             )
