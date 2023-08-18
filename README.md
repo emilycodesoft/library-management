@@ -1,6 +1,6 @@
 # Gesti-Biblioteca
 
-Gesti-Biblioteca is a desktop application to manage the available books on a library builded on Flet, a python's library to build user interfaces based on Flutter. I use a folder structure based on Vue.js to manage the views, components, stores and more.
+Gesti-Biblioteca is a desktop application designed to manage the available books in a library. It is built using Flet, a Python framework for creating user interfaces based on Flutter. I utilize a folder structure inspired by Vue.js to efficiently organize views, components, stores, and more.
 
 # Author
 
